@@ -36,6 +36,7 @@ class puppet::server::config inherits puppet::config {
   $server_external_nodes       = $puppet::server::external_nodes
   $server_environment_timeout  = $puppet::server::environment_timeout
   $trusted_external_command    = $puppet::server::trusted_external_command
+  $server_puppetserver_version = $puppet::server::real_puppetserver_version
 
   if $server_external_nodes and $server_external_nodes != '' {
     class{ 'puppet::server::enc':
@@ -219,6 +220,26 @@ class puppet::server::config inherits puppet::config {
       mode    => $puppet::server::autosign_mode,
       content => $autosign_content,
       source  => $puppet::server::autosign_source,
+    }
+  }
+
+  # fileserver file
+  if !empty($puppet::server::fileserver_mountpoints) {
+    file { $puppet::server::fileserver_conf:
+      ensure  => file,
+      owner   => $puppet::user,
+      group   => $puppet::group,
+      content => template('puppet/server/fileserver.conf.erb'),
+    }
+  }
+
+  # fileserver mount points
+  $puppet::server::fileserver_mountpoints.each |$mountpoint| {
+    file { "${puppet::dir}/${mountpoint}":
+      ensure  => directory,
+      owner   => $puppet::user,
+      group   => $puppet::group,
+      require => File[$puppet::server::fileserver_conf],
     }
   }
 

@@ -537,6 +537,14 @@
 #                                           invokes when on static_file_content requests.
 #                                           Defaults to undef
 #
+# $server_fileserver_conf::                 This sets the full file path of the fileserver.conf file.
+#                                           Should you change puppet's fileserverconfig setting, update this accordingly.
+#                                           Defaults to $confdir/fileserver.conf
+#
+# $server_fileserver_mountpoints::          This setting configures the Puppetserver fileserver.conf file.
+#                                           It is an array of directories to be used as mount points.
+#                                           Defaults to an empty array.
+#
 # === Usage:
 #
 # * Simple usage:
@@ -735,6 +743,8 @@ class puppet (
   Optional[Integer[1]] $server_max_open_files = $puppet::params::server_max_open_files,
   Optional[Stdlib::Absolutepath] $server_versioned_code_id = undef,
   Optional[Stdlib::Absolutepath] $server_versioned_code_content = undef,
+  Stdlib::Absolutepath $server_fileserver_conf = $puppet::params::fileserver_conf,
+  Array[String] $server_fileserver_mountpoints = $puppet::params::server_fileserver_mountpoints,
 ) inherits puppet::params {
   contain puppet::config
 

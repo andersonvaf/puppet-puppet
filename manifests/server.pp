@@ -331,6 +331,14 @@
 # $versioned_code_content::            Contains the path to an executable script that Puppet Server invokes when an agent makes
 #                                      a static_file_content API request for the contents of a file resource that
 #                                      has a source attribute with a puppet:/// URI value.
+#
+# $fileserver_conf::                   This sets the full file path of the fileserver.conf file.
+#                                      Should you change puppet's fileserverconfig setting, update this accordingly.
+#                                      Defaults to $confdir/fileserver.conf
+#
+# $fileserver_mountpoints::            This setting configures the Puppetserver fileserver.conf file.
+#                                      It is an array of directories to be used as mount points.
+#                                      Defaults to an empty array.
 class puppet::server(
   Variant[Boolean, Stdlib::Absolutepath] $autosign = $puppet::autosign,
   Array[String] $autosign_entries = $puppet::autosign_entries,
@@ -450,6 +458,8 @@ class puppet::server(
   Optional[Integer[1]] $max_open_files = $puppet::server_max_open_files,
   Optional[Stdlib::Absolutepath] $versioned_code_id = $puppet::server_versioned_code_id,
   Optional[Stdlib::Absolutepath] $versioned_code_content = $puppet::server_versioned_code_content,
+  Stdlib::Absolutepath $fileserver_conf = $puppet::server_fileserver_conf,
+  Array[String] $fileserver_mountpoints = $puppet::server_fileserver_mountpoints,
 ) {
   # For Puppetserver, certain configuration parameters are version specific. We
   # assume a particular version here.

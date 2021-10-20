@@ -1,0 +1,10 @@
+#
+# Managed by Puppet
+#
+<% scope.lookupvar("puppet::server::fileserver_mountpoints").each do |mountpoint| -%>
+[<%= mountpoint %>]
+    path /etc/puppetlabs/puppet/<%= mountpoint %>
+<% if scope.function_versioncmp([@server_puppetserver_version, '7.0']) < 0 -%>
+    allow *
+<% end -%>
+<% end -%>

@@ -439,4 +439,8 @@ class puppet::params {
   # Normally agents can only fetch their own catalogs.  If you want some nodes to be able to fetch *any* catalog, add them here.
   $server_puppetserver_trusted_agents = []
   $server_puppetserver_trusted_certificate_extensions = []
+
+  # Puppetserver fileserver.conf
+  $fileserver_conf = "${dir}/fileserver.conf"
+  $server_fileserver_mountpoints = []
 }

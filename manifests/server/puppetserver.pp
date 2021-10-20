@@ -57,6 +57,9 @@
 # @param server_multithreaded
 #   Configures the puppetserver to use multithreaded jruby.
 #
+# @param server_fileserver_mountpoints
+#   Configures Puppetserver fileserver.conf file with the provided mount point directories.
+#
 # @example
 #
 #   # configure memory for java < 8
